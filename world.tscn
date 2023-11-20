@@ -1,0 +1,44 @@
+[gd_scene load_steps=9 format=3 uid="uid://cypgtw3c763yb"]
+
+[ext_resource type="PackedScene" uid="uid://crsaxsxlb1o3a" path="res://player_controller.tscn" id="1_etvmh"]
+[ext_resource type="PackedScene" uid="uid://c8fmqpkurlxa8" path="res://player.tscn" id="2_g45yf"]
+[ext_resource type="PackedScene" uid="uid://d3hms4rptv18i" path="res://weapon.tscn" id="3_nxrpe"]
+[ext_resource type="Texture2D" uid="uid://sqcco4j2at5w" path="res://Textures/texture_08.png" id="3_qakpw"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4dhrn"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_mol3e"]
+sky_material = SubResource("ProceduralSkyMaterial_4dhrn")
+
+[sub_resource type="Environment" id="Environment_phdfk"]
+background_mode = 2
+sky = SubResource("Sky_mol3e")
+tonemap_mode = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v8tep"]
+albedo_texture = ExtResource("3_qakpw")
+normal_texture = ExtResource("3_qakpw")
+uv1_scale = Vector3(6.005, 6.005, 6.005)
+texture_filter = 0
+
+[node name="World" type="Node3D"]
+
+[node name="PlayerController" parent="." node_paths=PackedStringArray("Target") instance=ExtResource("1_etvmh")]
+Target = NodePath("../Player")
+
+[node name="Player" parent="." instance=ExtResource("2_g45yf")]
+WeaponScene = ExtResource("3_nxrpe")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866024, -0.433016, 0.250001, 0, 0.499998, 0.866026, -0.500003, 0.749999, -0.43301, 0, 12, 245)
+directional_shadow_mode = 0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_phdfk")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+use_collision = true
+size = Vector3(100, 0.002, 100)
+material = SubResource("StandardMaterial3D_v8tep")
